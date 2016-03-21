@@ -17,4 +17,5 @@ cat \'br63trf.os13sd\' | python properties.py > properties.csv
 cat \'br63trf.buildcod\' | python building_codes.py > building_codes.csv
 cat \'br63trf.stcode\' | python street_codes.py > street_codes.csv
 cat \'br63trf.offpr\' | python off_property.py > off_property.csv
+cat \'br63trf.nicrt4wb\' | python assessment_history.py > assessment_history.csv
 ```
