@@ -1,4 +1,8 @@
-import struct
+"""
+Properties file parser
+File: 'br63trf.os13sd'
+"""
+from struct import Struct
 from csv import DictWriter
 from sys import stdin, stdout
 
@@ -22,7 +26,7 @@ def are_all_chars(input, char):
 writer = DictWriter(stdout, fieldnames=header)
 writer.writeheader()
 
-parse = struct.Struct(layout).unpack_from
+parse = Struct(layout).unpack_from
 
 for line in stdin.readlines():
   # Deconstruct fixed-width string
