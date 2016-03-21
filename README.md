@@ -14,4 +14,5 @@ Note: This is a work in progress to replace the current FME-based workflow.
 ## Usage
 ```bash
 cat \'br63trf.os13sd\' | python properties.py > properties.csv
+cat \'br63trf.buildcod\' | python building_codes.py > building_codes.csv
 ```
