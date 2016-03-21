@@ -44,7 +44,10 @@ for line in stdin.readlines():
 
   # Enforce numeric fields
   for field in numeric_fields:
-    row[field] = int(row[field])
+    try:
+      row[field] = int(row[field])
+    except ValueError:
+      row[field] = 0
 
   # Strip leading zeros from other non-numeric fields
   for field in ['HOUSE_NO', 'UNIT', 'EXT']:

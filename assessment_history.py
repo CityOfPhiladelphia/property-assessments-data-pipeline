@@ -48,7 +48,10 @@ for line in stdin.readlines():
 
   # Enforce numeric fields
   for field in numeric_fields:
-    row[field] = int(row[field])
+    try:
+      row[field] = int(row[field])
+    except ValueError:
+      row[field] = 0
 
   # Unit numbers should be padded with leading zeros or empty
   if are_all_chars(row['UNIT_NUMBER'], '0'):
