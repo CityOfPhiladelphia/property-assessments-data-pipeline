@@ -19,7 +19,10 @@ parse = Struct(layout).unpack_from
 
 for line in stdin.readlines():
   # Deconstruct fixed-width string
-  row = parse(line)#[:struct_size])
+  row = parse(line)
+
+  # Trim whitespace in each field
+  row = [field.strip() for field in row]
 
   # Convert to dict using header
   row = dict(zip(header, row))
