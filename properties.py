@@ -29,6 +29,9 @@ writer.writeheader()
 parse = Struct(layout).unpack_from
 
 for line in stdin.readlines():
+  # Decode line
+  line = line.decode('ascii', 'ignore')
+
   # Deconstruct fixed-width string
   row = parse(line)
 
