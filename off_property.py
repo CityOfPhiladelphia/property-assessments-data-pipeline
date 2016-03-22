@@ -18,6 +18,9 @@ parse = Struct(layout).unpack_from
 struct_length = calcsize(layout)
 
 for line in stdin.readlines():
+  # Decode line
+  line = line.decode('ascii', 'ignore')
+
   # Ensure string length is what deconstructer expects
   if len(line) != struct_length:
     line = '{:<{}s}'.format(line, struct_length)
