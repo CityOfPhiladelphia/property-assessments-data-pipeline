@@ -7,13 +7,14 @@ from csv import DictWriter
 from sys import stdin, stdout
 
 from layouts import PROPERTIES_LAYOUT
-from util import construct_layout, get_active_header, clean_date, are_all_chars
+from util import (construct_layout, get_active_header, get_fields_by_type,
+                  clean_date, are_all_chars)
 
 layout = construct_layout(PROPERTIES_LAYOUT)
 header = get_active_header(PROPERTIES_LAYOUT)
 
-date_fields = ['ASSMT_DT', 'DT_EXT_COND', 'MV_DT', 'RCD_DT', 'SALE_DATE', 'XMPT_DT']
-numeric_fields = ['CENSUS', 'SALE_PR', 'MV', 'TX_LND', 'TX_BLDG', 'XMPT_LND', 'XMPT_BLDG', 'FRT', 'DPT', 'TOT_AREA', 'GRG_SP', 'OFF_ST', 'STORIES', 'NO_RM', 'NO_BD', 'NO_BATH', 'BASMT_SQFT', 'FIRE', 'TOT_LIV_AREA']
+date_fields = get_fields_by_type(PROPERTIES_LAYOUT, 'date')
+numeric_fields = get_fields_by_type(PROPERTIES_LAYOUT, 'number')
 
 # Prepare CSV output to stdout
 writer = DictWriter(stdout, fieldnames=header)

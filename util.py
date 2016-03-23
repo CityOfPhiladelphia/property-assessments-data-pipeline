@@ -24,6 +24,9 @@ def construct_layout(cols):
 def get_active_header(cols):
   return [col['name'] for col in cols if col.get('skip') != True]
 
+def get_fields_by_type(cols, type):
+  return [col['name'] for col in cols if col.get('type') == type]
+
 def clean_date(input):
   if are_all_chars(input, '0'): return ''
   elif input[-2:] == '00': return '{0}-{1}'.format(input[:4], input[4:6])
