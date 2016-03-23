@@ -6,10 +6,11 @@ from struct import Struct
 from csv import DictWriter
 from sys import stdin, stdout
 
-layout = '5s 25s 1s 4s 7s'
+from layouts import BUILDING_CODES_LAYOUT
+from util import construct_layout, get_active_header
 
-# Leaves off BLDG_CD_NEW_BUILDING_CODE & BLDG_CD_RESERVED_BUILDING_CODE fields since they're not in every row
-header = ['BLDG_CD_BLDGCODE', 'BLDG_CD_DESCRIPTION', 'BLDG_CD_CATEGORY_CODE', 'BLDG_CD_STATE_CODE', 'BLDG_CD_REMASTTALLY']
+layout = construct_layout(BUILDING_CODES_LAYOUT)
+header = get_active_header(BUILDING_CODES_LAYOUT)
 
 # Prepare CSV output to stdout
 writer = DictWriter(stdout, fieldnames=header)

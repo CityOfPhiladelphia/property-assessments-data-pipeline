@@ -6,10 +6,11 @@ from struct import Struct
 from csv import DictWriter
 from sys import stdin, stdout
 
-layout = '15s 1s 3s 6s'
+from layouts import STREET_CODES_LAYOUT
+from util import construct_layout, get_active_header
 
-# Leave off last 2 cols
-header = ['ST_CD_STREETNAME', 'ST_CD_DIRECTION', 'ST_CD_DESIGNATION', 'ST_CD_STREETCODE']
+layout = construct_layout(STREET_CODES_LAYOUT)
+header = get_active_header(STREET_CODES_LAYOUT)
 
 # Prepare CSV output to stdout
 writer = DictWriter(stdout, fieldnames=header)

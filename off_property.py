@@ -6,9 +6,11 @@ from struct import Struct, calcsize
 from csv import DictWriter
 from sys import stdin, stdout
 
-layout = '9s 25s 25s 25s 25s 25s 9s'
+from layouts import OFF_PROPERTY_LAYOUT
+from util import construct_layout, get_active_header
 
-header = ['OFFPROP_ACCTNO', 'OFFPROP_CAREOFNAME', 'OFFPROP_ADDR1', 'OFFPROP_ADDR2', 'OFFPROP_STNAME', 'OFFPROP_CITYST', 'OFFPROP_ZIPCODE']
+layout = construct_layout(OFF_PROPERTY_LAYOUT)
+header = get_active_header(OFF_PROPERTY_LAYOUT)
 
 # Prepare CSV output to stdout
 writer = DictWriter(stdout, fieldnames=header)

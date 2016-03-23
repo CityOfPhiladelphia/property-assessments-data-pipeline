@@ -6,16 +6,14 @@ from struct import Struct, calcsize
 from csv import DictWriter
 from sys import stdin, stdout
 
-layout = '5s 5s 1s 7s 2s 9s 6x 6x 1s 5x 25x 25x 25x 25x 25x 5x 4x 1x 9x 9x 9x 9x 11x 9s 9s 9s 9s 11s 2x'
+from layouts import ASSESSMENT_HISTORY_LAYOUT
+from util import construct_layout, get_active_header, are_all_chars
 
-header = ['STREET_CODE', 'HOUSE_NUMBER', 'SUFFIX', 'UNIT_NUMBER', 'CERT_YEAR', 'ACCOUNT_NUMBER', 'ACTION_CODE', 'CERTIFIED_TAXABLE_LAND', 'CERTIFIED_TAXABLE_BUILD', 'CERTIFIED_EXEMPT_LAND', 'CERTIFIED_EXEMPT_BUILDING', 'MARKET_VALUE']
+layout = construct_layout(ASSESSMENT_HISTORY_LAYOUT)
+header = get_active_header(ASSESSMENT_HISTORY_LAYOUT)
 
 output_header = ['RECORD_ID', 'PROPERTY_ID', 'ACCOUNT_NUMBER', 'CERT_YEAR', 'MARKET_VALUE', 'CERTIFIED_TAXABLE_LAND', 'CERTIFIED_TAXABLE_BUILD', 'CERTIFIED_EXEMPT_LAND', 'CERTIFIED_EXEMPT_BUILDING']
-
 numeric_fields = ['CERTIFIED_TAXABLE_LAND', 'CERTIFIED_TAXABLE_BUILD', 'CERTIFIED_EXEMPT_LAND', 'CERTIFIED_EXEMPT_BUILDING', 'MARKET_VALUE']
-
-def are_all_chars(input, char):
-  return input == len(input) * char
 
 # Prepare CSV output to stdout
 writer = DictWriter(stdout, fieldnames=output_header, extrasaction='ignore')
