@@ -47,17 +47,18 @@ for line in stdin.readlines():
       row[field] = 0
 
   # Strip leading zeros from other non-numeric fields
-  for field in ['HOUSE_NO', 'UNIT', 'EXT']:
+  for field in ['unit']:
     row[field] = row[field].lstrip('0')
 
   # Empty fields of all zeros
-  for field in ['YR_BUILT', 'BK_PG']:
+  for field in ['year_built', 'book_and_page']:
     if are_all_chars(row[field], '0'): row[field] = ''
 
   # Fix math of some fields
-  for field in ['TOT_AREA', 'FRT', 'DPT']:
+  for field in ['total_area', 'frontage', 'depth']:
     if row[field] > 0: row[field] /= 100
-  for field in ['NO_BATH', 'NO_BD', 'NO_RM', 'STORIES']:
+  for field in ['number_of_bathrooms', 'number_of_bedrooms',
+                'number_of_rooms', 'number_stories']:
     if row[field] > 0: row[field] /= 10
 
   writer.writerow(row)
