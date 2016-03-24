@@ -8,7 +8,7 @@ from sys import stdin, stdout
 
 from layouts import ASSESSMENT_HISTORY_LAYOUT
 from util import (construct_layout, get_active_header, get_fields_by_type,
-                  are_all_chars)
+                  are_all_chars, warning)
 
 layout = construct_layout(ASSESSMENT_HISTORY_LAYOUT)
 header = get_active_header(ASSESSMENT_HISTORY_LAYOUT)
@@ -54,6 +54,8 @@ for line in stdin.readlines():
     try:
       row[field] = int(row[field])
     except ValueError:
+      warning('[{0}] Invalid integer conversion of {1} for "{2}"'.format(
+          row['parcel_number'], field, row[field]))
       row[field] = 0
 
   # Construct unique record id from property id + certification year

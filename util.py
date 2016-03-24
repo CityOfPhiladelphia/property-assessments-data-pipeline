@@ -1,3 +1,7 @@
+from __future__ import print_function
+from datetime import datetime
+from sys import stderr
+
 def construct_layout(cols):
   layout_items = []
   current_position = 0
@@ -28,9 +32,14 @@ def get_fields_by_type(cols, type):
   return [col['name'] for col in cols if col.get('type') == type]
 
 def clean_date(input):
-  if are_all_chars(input, '0'): return ''
-  elif input[-2:] == '00': return '{0}-{1}'.format(input[:4], input[4:6])
-  else: return '{0}-{1}-{2}'.format(input[:4], input[4:6], input[6:])
+  if are_all_chars(input, '0'):
+    return ''
+  elif input[-2:] == '00':
+    input = input[:-2] + '01'
+  return datetime.strptime(input, '%Y%m%d').strftime('%Y-%m-%d')
+
+def warning(msg):
+  print('Warning: ' + msg, file=stderr)
 
 def are_all_chars(input, char):
   return input == len(input) * char

@@ -8,7 +8,7 @@ from sys import stdin, stdout
 
 from layouts import PROPERTIES_LAYOUT
 from util import (construct_layout, get_active_header, get_fields_by_type,
-                  clean_date, are_all_chars, get_category_code_desc)
+                  clean_date, are_all_chars, get_category_code_desc, warning)
 
 layout = construct_layout(PROPERTIES_LAYOUT)
 header = get_active_header(PROPERTIES_LAYOUT)
@@ -38,13 +38,21 @@ for line in stdin.readlines():
 
   # Format date fields
   for field in date_fields:
-    row[field] = clean_date(row[field])
+    if row[field] == '': continue
+    try:
+      row[field] = clean_date(row[field])
+    except ValueError:
+      warning('[{0}] Invalid date conversion of {1} for "{2}"'.format(
+          row['parcel_number'], field, row[field]))
 
   # Enforce numeric fields
   for field in numeric_fields:
+    if row[field] == '': continue
     try:
       row[field] = int(row[field])
     except ValueError:
+      warning('[{0}] Invalid integer conversion of {1} for "{2}"'.format(
+          row['parcel_number'], field, row[field]))
       row[field] = 0
 
   # Strip leading zeros from other non-numeric fields
