@@ -8,16 +8,17 @@ from sys import stdin, stdout
 
 from layouts import PROPERTIES_LAYOUT
 from util import (construct_layout, get_active_header, get_fields_by_type,
-                  clean_date, are_all_chars)
+                  clean_date, are_all_chars, get_category_code_desc)
 
 layout = construct_layout(PROPERTIES_LAYOUT)
 header = get_active_header(PROPERTIES_LAYOUT)
+output_header = header + ['category_code_description']
 
 date_fields = get_fields_by_type(PROPERTIES_LAYOUT, 'date')
 numeric_fields = get_fields_by_type(PROPERTIES_LAYOUT, 'number')
 
 # Prepare CSV output to stdout
-writer = DictWriter(stdout, fieldnames=header)
+writer = DictWriter(stdout, fieldnames=output_header)
 writer.writeheader()
 
 parse = Struct(layout).unpack_from
@@ -60,5 +61,8 @@ for line in stdin.readlines():
   for field in ['number_of_bathrooms', 'number_of_bedrooms',
                 'number_of_rooms', 'number_stories']:
     if row[field] > 0: row[field] /= 10
+
+  # Add category code description from lookup dict
+  row['category_code_description'] = get_category_code_desc(row['category_code'])
 
   writer.writerow(row)

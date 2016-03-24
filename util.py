@@ -34,3 +34,13 @@ def clean_date(input):
 
 def are_all_chars(input, char):
   return input == len(input) * char
+
+def get_category_code_desc(category_code):
+  return {
+    1: 'RESIDENTIAL',
+    2: 'HOTELS AND APARTMENTS',
+    3: 'STORE WITH DWELLING',
+    4: 'COMMERCIAL',
+    5: 'INDUSTRIAL',
+    6: 'VACANT LAND',
+  }.get(category_code, '')
