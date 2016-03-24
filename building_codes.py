@@ -31,7 +31,4 @@ for line in stdin.readlines():
   # Convert to dict using header
   row = dict(zip(header, row))
 
-  # Strip leading zeros from one field
-  row['BLDG_CD_REMASTTALLY'] = row['BLDG_CD_REMASTTALLY'].lstrip('0')
-
   writer.writerow(row)
