@@ -6,6 +6,9 @@ def construct_layout(cols):
   layout_items = []
   current_position = 0
 
+  # Sort cols by start property
+  cols.sort(key=lambda col: col.get('start'))
+
   for col in cols:
     # If any chars were skipped, add a pad byte
     if col['start'] != current_position:
