@@ -7,13 +7,15 @@ from csv import DictWriter
 from sys import stdin, stdout
 
 from layouts import ASSESSMENT_HISTORY_LAYOUT
-from util import construct_layout, get_active_header, are_all_chars
+from util import (construct_layout, get_active_header, get_fields_by_type,
+                  are_all_chars)
 
 layout = construct_layout(ASSESSMENT_HISTORY_LAYOUT)
 header = get_active_header(ASSESSMENT_HISTORY_LAYOUT)
 
-output_header = ['RECORD_ID', 'PROPERTY_ID', 'ACCOUNT_NUMBER', 'CERT_YEAR', 'MARKET_VALUE', 'CERTIFIED_TAXABLE_LAND', 'CERTIFIED_TAXABLE_BUILD', 'CERTIFIED_EXEMPT_LAND', 'CERTIFIED_EXEMPT_BUILDING']
-numeric_fields = ['CERTIFIED_TAXABLE_LAND', 'CERTIFIED_TAXABLE_BUILD', 'CERTIFIED_EXEMPT_LAND', 'CERTIFIED_EXEMPT_BUILDING', 'MARKET_VALUE']
+output_header = ['record_id'] + header
+output_header.remove('action_code')
+numeric_fields = get_fields_by_type(ASSESSMENT_HISTORY_LAYOUT, 'number')
 
 # Prepare CSV output to stdout
 writer = DictWriter(stdout, fieldnames=output_header, extrasaction='ignore')
@@ -40,12 +42,12 @@ for line in stdin.readlines():
   row = dict(zip(header, row))
 
   # Filter out records where action code is not 'A'
-  if row['ACTION_CODE'] != 'A':
+  if row['action_code'] != 'A':
     continue
 
   # Use full certification year instead of last 2 chars
-  if row['CERT_YEAR']:
-    row['CERT_YEAR'] = '20' + row['CERT_YEAR']
+  if row['year']:
+    row['year'] = '20' + row['year']
 
   # Enforce numeric fields
   for field in numeric_fields:
@@ -54,17 +56,8 @@ for line in stdin.readlines():
     except ValueError:
       row[field] = 0
 
-  # Unit numbers should be padded with leading zeros or empty
-  if are_all_chars(row['UNIT_NUMBER'], '0'):
-    row['UNIT_NUMBER'] = ''
-  else:
-    row['UNIT_NUMBER'] = row['UNIT_NUMBER'].zfill(7)
-
-  # Construct property id from street code + house number + suffix + unit
-  row['PROPERTY_ID'] = '{0}{1}{2}{3}'.format(row['STREET_CODE'], row['HOUSE_NUMBER'], row['SUFFIX'], row['UNIT_NUMBER'])
-
   # Construct unique record id from property id + certification year
-  row['RECORD_ID'] = '{0}{1}'.format(row['PROPERTY_ID'], row['CERT_YEAR'])
+  row['record_id'] = '{0}{1}'.format(row['parcel_number'], row['year'])
 
   # Filter out 
   writer.writerow(row)
