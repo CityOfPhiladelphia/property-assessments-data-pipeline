@@ -3,14 +3,14 @@ PROPERTIES_LAYOUT = [
   {'start': 9,    'end': 34,   'name': 'LOC',           'alias': 'location'},
   {'start': 34,   'end': 59,   'name': 'OWNER1',        'alias': 'owner_1'},
   {'start': 59,   'end': 84,   'name': 'OWNER2',        'alias': 'owner_2'},
-  {'start': 84,   'end': 87,   'name': 'CENSUS',        'alias': 'census_tract',            'type': 'number'},
+  {'start': 84,   'end': 87,   'name': 'CENSUS',        'alias': 'census_tract'},
   {'start': 87,   'end': 96,   'name': 'ZIP',           'alias': 'zip_code'},
   {'start': 96,   'end': 98,   'name': 'WD_GEO',        'alias': 'geographic_ward'},
   {'start': 98,   'end': 103,  'name': 'ST_CD',         'alias': 'street_code'},
-  {'start': 103,  'end': 108,  'name': 'HOUSE_NO',      'alias': 'house_number'},
+  {'start': 103,  'end': 108,  'name': 'HOUSE_NO',      'alias': 'house_number',            'type': 'number'},
   {'start': 108,  'end': 109,  'name': 'SUFF',          'alias': 'suffix'},
   {'start': 109,  'end': 116,  'name': 'UNIT',          'alias': 'unit'},
-  {'start': 116,  'end': 118,  'name': 'EXT',           'alias': 'house_extension'},
+  {'start': 116,  'end': 118,  'name': 'EXT',           'alias': 'house_extension',         'type': 'number'},
   {'start': 118,  'end': 126,  'name': 'RCD_DT',        'alias': 'recording_date',          'type': 'date'}, # date
   {'start': 126,  'end': 134,  'name': 'SALE_DATE',     'alias': 'sale_date',               'type': 'date'}, # date
   {'start': 134,  'end': 146,  'name': 'SALE_PR',       'alias': 'sale_price',              'type': 'number'}, # money
@@ -23,7 +23,7 @@ PROPERTIES_LAYOUT = [
   {'start': 186,  'end': 196,  'name': 'TX_BLDG',       'alias': 'taxable_building',        'type': 'number'}, # money
   {'start': 196,  'end': 206,  'name': 'XMPT_LND',      'alias': 'exempt_land',             'type': 'number'}, # money
   {'start': 206,  'end': 216,  'name': 'XMPT_BLDG',     'alias': 'exempt_building',         'type': 'number'}, # money
-  {'start': 216,  'end': 217,  'name': 'CAT_CD',        'alias': 'category_code'}, # also category_code_description
+  {'start': 216,  'end': 217,  'name': 'CAT_CD',        'alias': 'category_code',           'type': 'number'}, # also category_code_description
   {'start': 217,  'end': 220,  'name': 'XMPT_CD',       'alias': 'exempt_code',             'skip': True}, # excluded
   {'start': 220,  'end': 228,  'name': 'XMPT_DT',       'alias': 'exempt_date',             'skip': True}, # excluded
   {'start': 228,  'end': 233,  'name': 'BLDG_CD',       'alias': 'building_code'},
@@ -40,14 +40,14 @@ PROPERTIES_LAYOUT = [
   {'start': 283,  'end': 284,  'name': 'GRG_TYP',       'alias': 'garage_type'},
   {'start': 284,  'end': 286,  'name': 'GRG_SP',        'alias': 'garage_spaces',           'type': 'number'}, # number
   {'start': 286,  'end': 288,  'name': 'OFF_ST',        'alias': 'off_street_open',         'type': 'number'}, # number
-  {'start': 288,  'end': 289,  'name': 'VIEW',          'alias': 'view'},
+  {'start': 288,  'end': 289,  'name': 'VIEW',          'alias': 'view'}, # is this reserved word in oracle?
   {'start': 289,  'end': 290,  'name': 'OTR_BLDG',      'alias': 'other_building'},
   {'start': 290,  'end': 293,  'name': 'STORIES',       'alias': 'number_stories',          'type': 'number'}, # number
   {'start': 293,  'end': 294,  'name': 'GEN_CONST',     'alias': 'general_construction'},
   {'start': 294,  'end': 295,  'name': 'TYP_DWELL',     'alias': 'type_dwelling'},
   {'start': 295,  'end': 303,  'name': 'DT_EXT_COND',   'alias': 'date_exterior_condition', 'type': 'date'}, # date
-  {'start': 303,  'end': 304,  'name': 'EXT_COND',      'alias': 'exterior_condition'},
-  {'start': 304,  'end': 305,  'name': 'QLT_GRD',       'alias': 'quality_grade'},
+  {'start': 303,  'end': 304,  'name': 'EXT_COND',      'alias': 'exterior_condition',      'type': 'number'},
+  {'start': 304,  'end': 305,  'name': 'QLT_GRD',       'alias': 'quality_grade',           'type': 'number'},
   {'start': 305,  'end': 309,  'name': 'YR_BUILT',      'alias': 'year_built'},
   {'start': 309,  'end': 310,  'name': 'EST_YR_BUILT',  'alias': 'year_built_estimate'},
   {'start': 310,  'end': 311,  'name': 'FLR_PLAN',      'alias': 'floor_plan',              'skip': True}, # excluded
@@ -60,7 +60,7 @@ PROPERTIES_LAYOUT = [
   {'start': 334,  'end': 335,  'name': 'TYP_HEAT',      'alias': 'type_heater'},
   {'start': 335,  'end': 336,  'name': 'FUEL',          'alias': 'fuel'},
   {'start': 336,  'end': 337,  'name': 'CNT_AIR',       'alias': 'central_air'},
-  {'start': 337,  'end': 338,  'name': 'INT_COND',      'alias': 'interior_condition'},
+  {'start': 337,  'end': 338,  'name': 'INT_COND',      'alias': 'interior_condition',      'type': 'number'},
   {'start': 338,  'end': 342,  'name': 'AMTY',          'alias': 'amenity',                 'skip': True}, # excluded
   {'start': 342,  'end': 343,  'name': 'TYP_IMP',       'alias': 'type_improvement',        'skip': True}, # excluded
   {'start': 343,  'end': 344,  'name': 'UTLY',          'alias': 'utility'},
