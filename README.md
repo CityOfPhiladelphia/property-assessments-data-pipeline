@@ -20,19 +20,14 @@ cat \'br63trf.offpr\' | python off_property.py > off_property.csv
 cat \'br63trf.nicrt4wb\' | python assessment_history.py > assessment_history.csv
 ```
 
-To join the lookup tables to the properties table, use [csvjoin](http://csvkit.readthedocs.org/en/0.9.1/scripts/csvjoin.html):
+To join the lookup tables to the properties table, use
+[csvjoin](http://csvkit.readthedocs.org/en/0.9.1/scripts/csvjoin.html):
+
 ```bash
-csvjoin -c "PARCEL,OFFPROP_ACCTNO" --left <( \
-  csvjoin -c "ST_CD,ST_CD_STREETCODE" --left <( \
-    csvjoin -c "BLDG_CD,BLDG_CD_BLDGCODE" --left <( \
-      cat \'br63trf.os13sd\' | python properties.py \
-    ) <( \
-      cat \'br63trf.buildcod\' | python building_codes.py
-    ) \
-  ) <( \
-    cat \'br63trf.stcode\' | python street_codes.py \
-  )
-) <( \
-  cat \'br63trf.offpr\' | python off_property.py \
-) > merged.csv
+cat input/\'br63trf.os13sd\' | python properties.py \
+| csvjoin -c building_code - <(cat input/\'br63trf.buildcod\' | python building_codes.py) \
+| csvjoin -c street_code - <(cat input/\'br63trf.stcode\' | python street_codes.py) \
+| csvjoin -c parcel_number - <(cat input/\'br63trf.offpr\' | python off_property.py) \
+| csvcut --not-columns building_code,street_code,parcel_number \
+> output/merged_properties.csv
 ```
