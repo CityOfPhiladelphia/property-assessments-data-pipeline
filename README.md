@@ -31,3 +31,8 @@ cat input/\'br63trf.os13sd\' | python properties.py \
 | csvcut --not-columns building_code,street_code,parcel_number \
 > output/merged_properties.csv
 ```
+
+Alternatively, you can run the [Drakefile](Drakefile) using [drake](https://github.com/Factual/drake).
+```bash
+drake
+```
