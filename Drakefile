@@ -20,3 +20,18 @@ output/merged_properties.csv <- output/properties.csv, output/building_codes.csv
   | csvjoin -c street_code - $INPUT2 \
   | csvjoin -c parcel_number - $INPUT3 \
   | csvcut --not-columns building_code,street_code,parcel_number > $OUTPUT
+
+; Generate control file
+output/loader.ctl <- output/merged_properties.csv
+  FIELDS=`head -1 $INPUT`
+  cat >$OUTPUT << EOL
+  load data
+    infile '$INPUT'
+    into table ${TABLE}
+    fields terminated by ',' optionally enclosed by '"'
+    (${FIELDS})
+  EOL
+
+; Load
+<- output/loader.ctl
+  sqlldr $[USERNAME]/$[PASSWORD]@$[SERVER] control=$INPUT skip=1
