@@ -39,3 +39,5 @@ drake
 Set environment variables for `USERNAME`, `PASSWORD`, `SERVER`, and `TABLE` of the
 database or pass them to the `drake` command using
 `--vars="USERNAME=xx,PASSWORD=xx,SERVER=xx,TABLE=xx"`
+
+![drake workflow](http://i.imgur.com/62xrLKi.png)
