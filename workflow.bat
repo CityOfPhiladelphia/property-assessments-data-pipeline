@@ -13,4 +13,4 @@ cat output/properties.csv | csvjoin -c building_code - output/building_codes.csv
 
 cp output/merged_properties.csv %ETL_EXTERNAL_TABLE_PATH%
 
-echo "delete from %ETL_REAL_TABLE_NAME%; insert into %ETL_REAL_TABLE_NAME% select * from %ETL_EXTERNAL_TABLE_NAME%"
+echo "delete from %ETL_REAL_TABLE_NAME%; insert into %ETL_REAL_TABLE_NAME% select * from %ETL_EXTERNAL_TABLE_NAME%; | sqlplus %ETL_USER%/%ETL_PASS%@%ETL_DB%"
