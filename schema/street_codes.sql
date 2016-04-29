@@ -1,0 +1,2 @@
+CREATE TABLE "GIS_OPA"."STCODE" AS SELECT * FROM "GIS_OPA"."STCODE_EXT";
+# Add indexes here
