@@ -21,13 +21,10 @@ ORGANIZATION EXTERNAL
     OPTIONALLY ENCLOSED BY '"'
     MISSING FIELD VALUES ARE NULL
     (
-      STCODE,
       STNAME,
       DIR,
       DSG,
-      FILL,
-      RELLOC,
-      FULL_NAME
+      STCODE
     )
   )
   LOCATION ('street_codes.csv')

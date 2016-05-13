@@ -28,8 +28,7 @@ ORGANIZATION EXTERNAL
       O2NDADD,
       OSTNAME,
       OCITYST,
-      OZIP,
-      OFILL
+      OZIP
     )
   )
   LOCATION ('off_property.csv')
