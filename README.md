@@ -20,6 +20,8 @@ cat \'br63trf.offpr\' | python off_property.py > off_property.csv
 cat \'br63trf.nicrt4wb\' | python assessment_history.py > assessment_history.csv
 ```
 
+## Merging process (deprecated)
+**This merging is no longer necessary; we will use a database view instead**
 To join the lookup tables to the properties table, use
 [csvjoin](http://csvkit.readthedocs.org/en/0.9.1/scripts/csvjoin.html):
 
