@@ -23,15 +23,19 @@ writer.writeheader()
 
 parse = Struct(layout).unpack_from
 
-for line in stdin.readlines():
-  # Decode line
-  line = line.decode('ascii', 'ignore')
+def get_stdin_bytes():
+  try: return stdin.buffer  # Py 3
+  except: return stdin      # Py 2
 
+for line in get_stdin_bytes().readlines():
   # Deconstruct fixed-width string
   row = parse(line)
 
+  # Decode each value
+  row = (v.decode('ascii', 'ignore') for v in row)
+
   # Trim whitespace in each field
-  row = [field.strip() for field in row]
+  row = (field.strip() for field in row)
 
   # Convert to dict using headers
   row = dict(zip(header, row))
