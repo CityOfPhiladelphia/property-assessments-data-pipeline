@@ -13,8 +13,8 @@ from util import (construct_layout, get_active_header, get_fields_by_type,
 layout = construct_layout(ASSESSMENT_HISTORY_LAYOUT)
 header = get_active_header(ASSESSMENT_HISTORY_LAYOUT)
 
-output_header = ['record_id'] + header
-output_header.remove('action_code')
+output_header = ['RECORD_ID'] + header
+output_header.remove('ACTION_CODE')
 numeric_fields = get_fields_by_type(ASSESSMENT_HISTORY_LAYOUT, 'number')
 
 # Prepare CSV output to stdout
@@ -42,12 +42,12 @@ for line in stdin.readlines():
   row = dict(zip(header, row))
 
   # Filter out records where action code is not 'A'
-  if row['action_code'] != 'A':
+  if row['ACTION_CODE'] != 'A':
     continue
 
   # Use full certification year instead of last 2 chars
-  if row['year']:
-    row['year'] = '20' + row['year']
+  if row['CERT_YEAR']:
+    row['CERT_YEAR'] = '20' + row['CERT_YEAR']
 
   # Enforce numeric fields
   for field in numeric_fields:
@@ -59,7 +59,7 @@ for line in stdin.readlines():
       row[field] = 0
 
   # Construct unique record id from property id + certification year
-  row['record_id'] = '{0}{1}'.format(row['parcel_number'], row['year'])
+  row['RECORD_ID'] = '{0}{1}'.format(row['ACCOUNT_NUMBER'], row['CERT_YEAR'])
 
-  # Filter out 
+  # Filter out
   writer.writerow(row)
