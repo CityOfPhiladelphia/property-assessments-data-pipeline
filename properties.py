@@ -43,7 +43,7 @@ for line in stdin.readlines():
       row[field] = clean_date(row[field])
     except ValueError:
       warning('[{0}] Invalid date conversion of {1} for "{2}"'.format(
-          row['parcel_number'], field, row[field]))
+          row['PARCEL'], field, row[field]))
 
   # Enforce numeric fields
   for field in numeric_fields:
@@ -52,25 +52,28 @@ for line in stdin.readlines():
       row[field] = int(row[field])
     except ValueError:
       warning('[{0}] Invalid integer conversion of {1} for "{2}"'.format(
-          row['parcel_number'], field, row[field]))
+          row['PARCEL'], field, row[field]))
       row[field] = 0
 
   # Strip leading zeros from other non-numeric fields
-  for field in ['unit']:
+  for field in ['UNIT']:
     row[field] = row[field].lstrip('0')
 
   # Empty fields of all zeros
-  for field in ['year_built', 'book_and_page']:
+  for field in ['YR_BUILT', 'BK_PG']:
     if are_all_chars(row[field], '0'): row[field] = ''
 
-  # Fix math of some fields
-  for field in ['total_area', 'frontage', 'depth']:
+  # Fix math of some fields -- Mainframe stores 10 or 100
+  # times the actual value so that it can avoid decimals
+  # points (wastes of space).
+  for field in ['TOT_AREA', 'FRT', 'DPT']:  # total area, frontage, depth
+    row[field] = int(row[field])
     if row[field] > 0: row[field] /= 100
-  for field in ['number_of_bathrooms', 'number_of_bedrooms',
-                'number_of_rooms', 'number_stories']:
+  for field in ['NO_BATH', 'NO_BD', 'NO_RM', 'STORIES']: # num of bath, bed, room, stories
+    row[field] = int(row[field])
     if row[field] > 0: row[field] /= 10
 
   # Add category code description from lookup dict
-  row['category_code_description'] = get_category_code_desc(row['category_code'])
+  row['category_code_description'] = get_category_code_desc(row['CAT_CD'])
 
   writer.writerow(row)
