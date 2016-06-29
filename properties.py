@@ -71,10 +71,8 @@ for line in get_stdin_bytes().readlines():
   # times the actual value so that it can avoid decimals
   # points (wastes of space).
   for field in ['TOT_AREA', 'FRT', 'DPT']:  # total area, frontage, depth
-    row[field] = int(row[field])
     if row[field] > 0: row[field] /= 100
   for field in ['NO_BATH', 'NO_BD', 'NO_RM', 'STORIES']: # num of bath, bed, room, stories
-    row[field] = int(row[field])
     if row[field] > 0: row[field] /= 10
 
   # Add category code description from lookup dict
