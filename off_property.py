@@ -20,20 +20,20 @@ parse = Struct(layout).unpack_from
 struct_length = calcsize(layout)
 
 for line in stdin.readlines():
-  # Decode line
-  line = line.decode('ascii', 'ignore')
+    # Decode line
+    line = line.decode('ascii', 'ignore')
 
-  # Ensure string length is what deconstructer expects
-  if len(line) != struct_length:
-    line = '{:<{}s}'.format(line, struct_length)
+    # Ensure string length is what deconstructer expects
+    if len(line) != struct_length:
+        line = '{:<{}s}'.format(line, struct_length)
 
-  # Deconstruct fixed-width string
-  row = parse(line)
+    # Deconstruct fixed-width string
+    row = parse(line)
 
-  # Trim whitespace in each field
-  row = [field.strip() for field in row]
+    # Trim whitespace in each field
+    row = [field.strip() for field in row]
 
-  # Convert to dict using header
-  row = dict(zip(header, row))
+    # Convert to dict using header
+    row = dict(zip(header, row))
 
-  writer.writerow(row)
+    writer.writerow(row)

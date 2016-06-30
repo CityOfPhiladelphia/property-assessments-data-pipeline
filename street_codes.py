@@ -19,16 +19,16 @@ writer.writeheader()
 parse = Struct(layout).unpack_from
 
 for line in stdin.readlines():
-  # Decode line
-  line = line.decode('ascii', 'ignore')
+    # Decode line
+    line = line.decode('ascii', 'ignore')
 
-  # Deconstruct fixed-width string
-  row = parse(line)
+    # Deconstruct fixed-width string
+    row = parse(line)
 
-  # Trim whitespace in each field
-  row = [field.strip() for field in row]
+    # Trim whitespace in each field
+    row = [field.strip() for field in row]
 
-  # Convert to dict using header
-  row = dict(zip(header, row))
+    # Convert to dict using header
+    row = dict(zip(header, row))
 
-  writer.writerow(row)
+    writer.writerow(row)

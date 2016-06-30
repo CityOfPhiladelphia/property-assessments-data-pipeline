@@ -24,58 +24,58 @@ writer.writeheader()
 parse = Struct(layout).unpack_from
 
 def get_stdin_bytes():
-  try: return stdin.buffer  # Py 3
-  except: return stdin      # Py 2
+    try: return stdin.buffer  # Py 3
+    except: return stdin      # Py 2
 
 for line in get_stdin_bytes().readlines():
-  # Deconstruct fixed-width string
-  row = parse(line)
+    # Deconstruct fixed-width string
+    row = parse(line)
 
-  # Decode each value
-  row = (v.decode('ascii', 'ignore') for v in row)
+    # Decode each value
+    row = (v.decode('ascii', 'ignore') for v in row)
 
-  # Trim whitespace in each field
-  row = (field.strip() for field in row)
+    # Trim whitespace in each field
+    row = (field.strip() for field in row)
 
-  # Convert to dict using headers
-  row = dict(zip(header, row))
+    # Convert to dict using headers
+    row = dict(zip(header, row))
 
-  # Format date fields
-  for field in date_fields:
-    if row[field] == '': continue
-    try:
-      row[field] = clean_date(row[field])
-    except ValueError:
-      warning('[{0}] Invalid date conversion of {1} for "{2}"'.format(
-          row['PARCEL'], field, row[field]))
+    # Format date fields
+    for field in date_fields:
+        if row[field] == '': continue
+        try:
+            row[field] = clean_date(row[field])
+        except ValueError:
+            warning('[{0}] Invalid date conversion of {1} for "{2}"'.format(
+                row['PARCEL'], field, row[field]))
 
-  # Enforce numeric fields
-  for field in numeric_fields:
-    if row[field] == '': continue
-    try:
-      row[field] = int(row[field])
-    except ValueError:
-      warning('[{0}] Invalid integer conversion of {1} for "{2}"'.format(
-          row['PARCEL'], field, row[field]))
-      row[field] = 0
+    # Enforce numeric fields
+    for field in numeric_fields:
+        if row[field] == '': continue
+        try:
+            row[field] = int(row[field])
+        except ValueError:
+            warning('[{0}] Invalid integer conversion of {1} for "{2}"'.format(
+                row['PARCEL'], field, row[field]))
+            row[field] = 0
 
-  # Strip leading zeros from other non-numeric fields
-  for field in ['UNIT']:
-    row[field] = row[field].lstrip('0')
+    # Strip leading zeros from other non-numeric fields
+    for field in ['UNIT']:
+        row[field] = row[field].lstrip('0')
 
-  # Empty fields of all zeros
-  for field in ['YR_BUILT', 'BK_PG']:
-    if are_all_chars(row[field], '0'): row[field] = ''
+    # Empty fields of all zeros
+    for field in ['YR_BUILT', 'BK_PG']:
+        if are_all_chars(row[field], '0'): row[field] = ''
 
-  # Fix math of some fields -- Mainframe stores 10 or 100
-  # times the actual value so that it can avoid decimals
-  # points (wastes of space).
-  for field in ['TOT_AREA', 'FRT', 'DPT']:  # total area, frontage, depth
-    if row[field] > 0: row[field] /= 100
-  for field in ['NO_BATH', 'NO_BD', 'NO_RM', 'STORIES']: # num of bath, bed, room, stories
-    if row[field] > 0: row[field] /= 10
+    # Fix math of some fields -- Mainframe stores 10 or 100
+    # times the actual value so that it can avoid decimals
+    # points (wastes of space).
+    for field in ['TOT_AREA', 'FRT', 'DPT']:  # total area, frontage, depth
+        if row[field] > 0: row[field] /= 100
+    for field in ['NO_BATH', 'NO_BD', 'NO_RM', 'STORIES']: # num of bath, bed, room, stories
+        if row[field] > 0: row[field] /= 10
 
-  # Add category code description from lookup dict
-  row['category_code_description'] = get_category_code_desc(row['CAT_CD'])
+    # Add category code description from lookup dict
+    row['category_code_description'] = get_category_code_desc(row['CAT_CD'])
 
-  writer.writerow(row)
+    writer.writerow(row)

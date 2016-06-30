@@ -25,41 +25,41 @@ parse = Struct(layout).unpack_from
 struct_length = calcsize(layout)
 
 for line in stdin.readlines():
-  # Decode line
-  line = line.decode('ascii', 'ignore')
+    # Decode line
+    line = line.decode('ascii', 'ignore')
 
-  # Ensure string length is what deconstructer expects
-  if len(line) != struct_length:
-    line = '{:<{}s}'.format(line, struct_length)
+    # Ensure string length is what deconstructer expects
+    if len(line) != struct_length:
+        line = '{:<{}s}'.format(line, struct_length)
 
-  # Deconstruct fixed-width string
-  row = parse(line)
+    # Deconstruct fixed-width string
+    row = parse(line)
 
-  # Trim whitespace in each field
-  row = [field.strip() for field in row]
+    # Trim whitespace in each field
+    row = [field.strip() for field in row]
 
-  # Convert to dict using header
-  row = dict(zip(header, row))
+    # Convert to dict using header
+    row = dict(zip(header, row))
 
-  # Filter out records where action code is not 'A'
-  if row['ACTION_CODE'] != 'A':
-    continue
+    # Filter out records where action code is not 'A'
+    if row['ACTION_CODE'] != 'A':
+        continue
 
-  # Use full certification year instead of last 2 chars
-  if row['CERT_YEAR']:
-    row['CERT_YEAR'] = '20' + row['CERT_YEAR']
+    # Use full certification year instead of last 2 chars
+    if row['CERT_YEAR']:
+        row['CERT_YEAR'] = '20' + row['CERT_YEAR']
 
-  # Enforce numeric fields
-  for field in numeric_fields:
-    try:
-      row[field] = int(row[field])
-    except ValueError:
-      warning('[{0}] Invalid integer conversion of {1} for "{2}"'.format(
-          row['parcel_number'], field, row[field]))
-      row[field] = 0
+    # Enforce numeric fields
+    for field in numeric_fields:
+        try:
+            row[field] = int(row[field])
+        except ValueError:
+            warning('[{0}] Invalid integer conversion of {1} for "{2}"'.format(
+                row['parcel_number'], field, row[field]))
+            row[field] = 0
 
-  # Construct unique record id from property id + certification year
-  row['RECORD_ID'] = '{0}{1}'.format(row['ACCOUNT_NUMBER'], row['CERT_YEAR'])
+    # Construct unique record id from property id + certification year
+    row['RECORD_ID'] = '{0}{1}'.format(row['ACCOUNT_NUMBER'], row['CERT_YEAR'])
 
-  # Filter out
-  writer.writerow(row)
+    # Filter out
+    writer.writerow(row)
