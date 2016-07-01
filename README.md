@@ -27,10 +27,10 @@ To join the lookup tables to the properties table, use
 
 ```bash
 cat input/\'br63trf.os13sd\' | python properties.py \
-| csvjoin -c building_code - <(cat input/\'br63trf.buildcod\' | python building_codes.py) \
-| csvjoin -c street_code - <(cat input/\'br63trf.stcode\' | python street_codes.py) \
-| csvjoin -c parcel_number - <(cat input/\'br63trf.offpr\' | python off_property.py) \
-| csvcut --not-columns building_code,street_code,parcel_number \
+| csvjoin -c BLDG_CD,BLDG_CD_BLDGCODE - <(cat input/\'br63trf.buildcod\' | python building_codes.py) \
+| csvjoin -c ST_CD,STCODE - <(cat input/\'br63trf.stcode\' | python street_codes.py) \
+| csvjoin -c PARCEL,OPARCEL - <(cat input/\'br63trf.offpr\' | python off_property.py) \
+| csvcut --not-columns BLDG_CD_BLDGCODE,STCODE,OPARCEL \
 > output/merged_properties.csv
 ```
 
