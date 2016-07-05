@@ -1,6 +1,6 @@
 from __future__ import print_function
 from datetime import datetime
-from sys import stderr
+from sys import stderr, stdin
 
 def construct_layout(cols):
     layout_items = []
@@ -56,3 +56,7 @@ def get_category_code_desc(category_code):
         5: 'INDUSTRIAL',
         6: 'VACANT LAND',
     }.get(category_code, '')
+
+def get_stdin_bytes():
+    try: return stdin.buffer  # Py 3
+    except: return stdin      # Py 2

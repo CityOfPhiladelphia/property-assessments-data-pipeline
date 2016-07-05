@@ -1,0 +1,5 @@
+#!/usr/bin/env python
+
+from phl_property import assessment_history
+
+assessment_history.main()
