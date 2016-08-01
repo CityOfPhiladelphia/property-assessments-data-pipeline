@@ -1,18 +1,18 @@
 ; Properties
 output/properties.csv <- input/\'br63trf.os13sd\' [shell]
-  cat $INPUT | python properties.py > $OUTPUT
+  cat $INPUT | phl-properties > $OUTPUT
 
 ; Building codes
 output/building_codes.csv <- input/\'br63trf.buildcod\' [shell]
-  cat $INPUT | python building_codes.py > $OUTPUT
+  cat $INPUT | phl-building-codes > $OUTPUT
 
 ; Street codes
 output/street_codes.csv <- input/\'br63trf.stcode\' [shell]
-  cat $INPUT | python street_codes.py > $OUTPUT
+  cat $INPUT | phl-street-codes > $OUTPUT
 
 ; Off property
 output/off_property.csv <- input/\'br63trf.offpr\' [shell]
-  cat $INPUT | python off_property.py > $OUTPUT
+  cat $INPUT | phl-off-property > $OUTPUT
 
 ; Join
 output/merged_properties.csv <- output/properties.csv, output/building_codes.csv, output/street_codes.csv, output/off_property.csv [shell]
