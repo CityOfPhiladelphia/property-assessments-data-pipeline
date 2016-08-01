@@ -12,12 +12,21 @@ Note: This is a work in progress to replace the current FME-based workflow.
 - `category_codes.csv` Category codes
 
 ## Usage
+
+Install this package:
+
 ```bash
-cat \'br63trf.os13sd\' | python properties.py > properties.csv
-cat \'br63trf.buildcod\' | python building_codes.py > building_codes.csv
-cat \'br63trf.stcode\' | python street_codes.py > street_codes.csv
-cat \'br63trf.offpr\' | python off_property.py > off_property.csv
-cat \'br63trf.nicrt4wb\' | python assessment_history.py > assessment_history.csv
+pip install git+https://github.com/CityOfPhiladelphia/property-assessments-data-pipeline.git
+```
+
+Run the pipeline scripts:
+
+```bash
+cat \'br63trf.os13sd\' | phl-properties > properties.csv
+cat \'br63trf.buildcod\' | phl-building-codes > building_codes.csv
+cat \'br63trf.stcode\' | phl-street-codes > street_codes.csv
+cat \'br63trf.offpr\' | phl-off-property > off_property.csv
+cat \'br63trf.nicrt4wb\' | phl-assessment-history > assessment_history.csv
 ```
 
 ## Merging process (deprecated)
@@ -26,10 +35,10 @@ To join the lookup tables to the properties table, use
 [csvjoin](http://csvkit.readthedocs.org/en/0.9.1/scripts/csvjoin.html):
 
 ```bash
-cat input/\'br63trf.os13sd\' | python properties.py \
-| csvjoin -c BLDG_CD,BLDG_CD_BLDGCODE - <(cat input/\'br63trf.buildcod\' | python building_codes.py) \
-| csvjoin -c ST_CD,STCODE - <(cat input/\'br63trf.stcode\' | python street_codes.py) \
-| csvjoin -c PARCEL,OPARCEL - <(cat input/\'br63trf.offpr\' | python off_property.py) \
+cat input/\'br63trf.os13sd\' | phl-properties \
+| csvjoin -c BLDG_CD,BLDG_CD_BLDGCODE - <(cat input/\'br63trf.buildcod\' | phl-building-codes) \
+| csvjoin -c ST_CD,STCODE - <(cat input/\'br63trf.stcode\' | phl-street-codes) \
+| csvjoin -c PARCEL,OPARCEL - <(cat input/\'br63trf.offpr\' | phl-off-property) \
 | csvcut --not-columns BLDG_CD_BLDGCODE,STCODE,OPARCEL \
 > output/merged_properties.csv
 ```
